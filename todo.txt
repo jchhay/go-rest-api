@@ -1,0 +1,4 @@
+- externalize port
+- add in memory db
+- add unit testing
+- add folder structure

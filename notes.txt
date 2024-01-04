@@ -1,0 +1,15 @@
+# Source materials
+https://github.com/antonioalfa22/go-rest-template/blob/master/internal/api/router/router.go
+https://www.youtube.com/watch?v=bj77B59nkTQ
+
+# Sample test of adding a book
+curl localhost:8080/books --include --header "Content-Type: application/json" -d @sample_book.json --request "POST"
+
+# Sample test of listing all books
+curl localhost:8080/books
+
+# Sample test of getting a book by id and header details
+curl localhost:8080/books/2 -v
+
+# Sample test of checking out a book
+curl localhost:8080/checkout?id=2 --request "PATCH"
