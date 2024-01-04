@@ -9,13 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var books = []models.Book{
-	{ID: "1", Title: "In Search of Lost Time", Author: "Marcel Proust", Quantity: 2},
-	{ID: "2", Title: "Ulysses", Author: "James Joyce", Quantity: 5},
-	{ID: "3", Title: "Don Quixote", Author: "Miguel de Cervantes", Quantity: 10},
-}
-
 func getBooks(c *gin.Context) {
+	books := services.GetBooks()
 	c.IndentedJSON(http.StatusOK, books)
 }
 
@@ -32,51 +27,6 @@ func bookById(c *gin.Context) {
 
 }
 
-func checkoutBook(c *gin.Context) {
-	id, ok := c.GetQuery("id")
-
-	if !ok {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing id query parameter"})
-		return
-	}
-
-	book, err := services.GetBookById(id)
-
-	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "book not found"})
-		return
-	}
-
-	if book.Quantity <= 0 {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Book not available"})
-		return
-	}
-
-	book.Quantity -= 1
-	c.IndentedJSON(http.StatusOK, book)
-
-}
-
-func returnBook(c *gin.Context) {
-	id, ok := c.GetQuery("id")
-
-	if !ok {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing id query parameter"})
-		return
-	}
-
-	book, err := services.GetBookById(id)
-
-	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "book not found"})
-		return
-	}
-
-	book.Quantity += 1
-	c.IndentedJSON(http.StatusOK, book)
-
-}
-
 func createBook(c *gin.Context) {
 
 	var newBook models.Book
@@ -87,6 +37,11 @@ func createBook(c *gin.Context) {
 		return
 	}
 
-	books = append(books, newBook)
-	c.IndentedJSON(http.StatusCreated, newBook)
+	book, err := services.AddBook(newBook)
+
+	if err != nil {
+		c.IndentedJSON(http.StatusNotAcceptable, gin.H{"message": err.Error()})
+		return
+	}
+	c.IndentedJSON(http.StatusCreated, book)
 }
