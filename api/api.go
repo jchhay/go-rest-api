@@ -2,12 +2,19 @@ package api
 
 import (
 	"fmt"
+	"jchhay/go-rest-api-gin/config"
 )
+
+func init() {
+	// Setup environment variables
+	config.LoadEnv()
+	config.SetupConfig()
+}
 
 func Run() {
 
 	web := Setup()
-	fmt.Println("Go API REST Running on port " + "8080")
+	fmt.Println("Go API REST Running on port " + config.GetConfig().Server.Port)
 	fmt.Println("==================>")
-	_ = web.Run("localhost:8080")
+	_ = web.Run("localhost:" + config.GetConfig().Server.Port)
 }

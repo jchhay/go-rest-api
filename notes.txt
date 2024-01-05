@@ -1,8 +1,9 @@
 # Source materials
 https://github.com/antonioalfa22/go-rest-template/blob/master/internal/api/router/router.go
 https://www.youtube.com/watch?v=bj77B59nkTQ
+https://www.youtube.com/watch?v=lf_kiH_NPvM&t=27s
 sqlc - https://docs.sqlc.dev/en/stable/tutorials/getting-started-postgresql.html
-
+viper - https://stackoverflow.com/questions/65746929/viper-mapping-environment-variable-to-struct-member
 
 # Sample test of adding a book
 curl localhost:8080/books --include --header "Content-Type: application/json" -d @sample_book.json --request "POST"

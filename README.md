@@ -20,6 +20,27 @@ git branch -M main
 git push -uf origin main
 ```
 
+## Setup GoDotEnv - environment variable tool
+
+- [ ] Using the following libraries:
+
+```
+go get github.com/joho/godotenv
+```
+
+- [ ] Create file:
+```
+.env
+```
+
+## Setup viper - configuration solution
+
+- [ ] Using the following libraries:
+
+```
+go get github.com/spf13/viper
+```
+
 ## Integrate with your tools
 
 - [ ] [Set up project integrations](https://gitlab.com/j3085/python-automation/-/settings/integrations)
