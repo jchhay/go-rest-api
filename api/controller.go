@@ -2,21 +2,48 @@ package api
 
 import (
 	"net/http"
+	"strconv"
 
-	"jchhay/go-rest-api-gin/models"
+	"jchhay/go-rest-api-gin/dto"
 	"jchhay/go-rest-api-gin/services"
 
 	"github.com/gin-gonic/gin"
 )
 
-func getBooks(c *gin.Context) {
-	books := services.GetBooks()
+type BookController interface {
+	getBooks(c *gin.Context)
+	bookById(c *gin.Context)
+	createBook(c *gin.Context)
+}
+
+type bookController struct {
+	services services.BookService
+}
+
+func NewBookController(services services.BookService) BookController {
+	return &bookController{services}
+}
+
+/*
+Get All Books
+*/
+func (bc *bookController) getBooks(c *gin.Context) {
+	books := bc.services.GetBooks()
 	c.IndentedJSON(http.StatusOK, books)
 }
 
-func bookById(c *gin.Context) {
-	id := c.Param("id")
-	book, err := services.GetBookById(id)
+/*
+Get Book By Id
+Params: id
+*/
+func (bc *bookController) bookById(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "invalid id"})
+		return
+	}
+
+	book, err := bc.services.GetBookById(id)
 
 	if err != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "book not found"})
@@ -27,17 +54,20 @@ func bookById(c *gin.Context) {
 
 }
 
-func createBook(c *gin.Context) {
+/*
+Create New Book
+Params: id, title, author, quantity
+*/
+func (bc *bookController) createBook(c *gin.Context) {
 
-	var newBook models.Book
-	// Call BindJSON to bind the received JSON to
-	// newBook.
+	var newBook dto.BookRequestBody
+
 	if err := c.BindJSON(&newBook); err != nil {
 		// If there is an error, return err defaults from c.BindJSON
 		return
 	}
 
-	book, err := services.AddBook(newBook)
+	book, err := bc.services.CreateNewBook(newBook)
 
 	if err != nil {
 		c.IndentedJSON(http.StatusNotAcceptable, gin.H{"message": err.Error()})

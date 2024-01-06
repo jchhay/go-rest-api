@@ -4,6 +4,11 @@ https://www.youtube.com/watch?v=bj77B59nkTQ
 https://www.youtube.com/watch?v=lf_kiH_NPvM&t=27s
 sqlc - https://docs.sqlc.dev/en/stable/tutorials/getting-started-postgresql.html
 viper - https://stackoverflow.com/questions/65746929/viper-mapping-environment-variable-to-struct-member
+clean architecture - https://nurcahyaari.medium.com/how-i-implement-clean-code-architecture-on-golang-projects-68be58830621
+gin - https://www.jetbrains.com/guide/go/tutorials/rest_api_series/gin/
+https://medium.com/swlh/creating-a-production-ready-rest-api-with-go-6d91c5b09add
+https://github.com/antonioalfa22/go-rest-template/blob/master/internal/api/api.go
+https://dev.to/venom90/implementing-the-repository-pattern-in-go-golang-f9g
 
 # Sample test of adding a book
 curl localhost:8080/books --include --header "Content-Type: application/json" -d @sample_book.json --request "POST"

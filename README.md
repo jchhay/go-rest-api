@@ -1,6 +1,12 @@
 # go-rest-api-gin
 
+## Summary
 
+
+
+## Development Guide
+
+- [ ] Use naming convention of "New" as a prefix for functions that initializes a struct and returns an Interface. This will provide a consistent manner in interacting with code.
 
 ## Getting started
 

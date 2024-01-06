@@ -36,9 +36,10 @@ type DatabaseConfiguration struct {
 }
 
 type ServerConfiguration struct {
-	Port   string
-	Secret string
-	Mode   string
+	Port        string
+	Secret      string
+	Mode        string
+	UseDatabase bool
 }
 
 func SetupConfig() {
@@ -52,6 +53,7 @@ func SetupConfig() {
 
 	viper.BindEnv("server.port", "PORT")
 	viper.BindEnv("server.mode", "MODE")
+	viper.BindEnv("server.usedatabase", "USE_DATABASE")
 
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("Error reading config file, %s", err)
