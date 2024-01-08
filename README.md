@@ -47,6 +47,21 @@ go get github.com/joho/godotenv
 go get github.com/spf13/viper
 ```
 
+## Setup SQLITE - environment variable tool
+
+- [ ] Using the following libraries:
+
+```
+go get -u gorm.io/gorm
+go get -u gorm.io/driver/sqlite
+
+```
+
+- [ ] For Windows, read the gcc compiler instructions to resolve CGO_ENABLED error:
+```
+https://pkg.go.dev/github.com/mattn/go-sqlite3#section-readme
+```
+
 ## Integrate with your tools
 
 - [ ] [Set up project integrations](https://gitlab.com/j3085/python-automation/-/settings/integrations)

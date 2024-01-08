@@ -9,9 +9,10 @@ import (
 )
 
 type BookService interface {
-	GetBooks() []models.Book
+	GetBooks() (*[]models.Book, error)
 	GetBookById(id int) (*models.Book, error)
 	CreateNewBook(dto.BookRequestBody) (*dto.BookResponseBody, error)
+	DeleteBook(id int) (int64, error)
 }
 
 type bookService struct {
@@ -24,7 +25,7 @@ func NewBookService(repo repository.BookRepository) BookService {
 	}
 }
 
-func (b *bookService) GetBooks() []models.Book {
+func (b *bookService) GetBooks() (*[]models.Book, error) {
 	return b.repo.FindAll()
 }
 
@@ -32,7 +33,7 @@ func (b *bookService) GetBookById(id int) (*models.Book, error) {
 
 	book, err := b.repo.FindByID(id)
 	if err != nil {
-		return nil, errors.New("book not found")
+		return nil, errors.New(err.Error())
 	}
 
 	return book, nil
@@ -46,4 +47,8 @@ func (b *bookService) CreateNewBook(book dto.BookRequestBody) (*dto.BookResponse
 	}
 
 	return dto.CreateBookResponseBody(newBook), nil
+}
+
+func (b *bookService) DeleteBook(id int) (int64, error) {
+	return b.repo.DeleteByID(id)
 }

@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -36,10 +37,9 @@ type DatabaseConfiguration struct {
 }
 
 type ServerConfiguration struct {
-	Port        string
-	Secret      string
-	Mode        string
-	UseDatabase bool
+	Port   string
+	Secret string
+	Mode   string
 }
 
 func SetupConfig() {
@@ -53,7 +53,7 @@ func SetupConfig() {
 
 	viper.BindEnv("server.port", "PORT")
 	viper.BindEnv("server.mode", "MODE")
-	viper.BindEnv("server.usedatabase", "USE_DATABASE")
+	viper.BindEnv("database.driver", "DATABASE_DRIVER")
 
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("Error reading config file, %s", err)
@@ -63,6 +63,8 @@ func SetupConfig() {
 	if err != nil {
 		log.Fatalf("Unable to decode into struct, %v", err)
 	}
+
+	fmt.Println("CGO_ENABLED======" + viper.GetString("CGO_ENABLED"))
 
 }
 

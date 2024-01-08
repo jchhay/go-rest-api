@@ -14,6 +14,7 @@ type BookController interface {
 	getBooks(c *gin.Context)
 	bookById(c *gin.Context)
 	createBook(c *gin.Context)
+	deleteBook(c *gin.Context)
 }
 
 type bookController struct {
@@ -28,7 +29,11 @@ func NewBookController(services services.BookService) BookController {
 Get All Books
 */
 func (bc *bookController) getBooks(c *gin.Context) {
-	books := bc.services.GetBooks()
+	books, err := bc.services.GetBooks()
+	if err != nil {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "books not found"})
+		return
+	}
 	c.IndentedJSON(http.StatusOK, books)
 }
 
@@ -46,7 +51,7 @@ func (bc *bookController) bookById(c *gin.Context) {
 	book, err := bc.services.GetBookById(id)
 
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "book not found"})
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": err.Error()})
 		return
 	}
 
@@ -74,4 +79,25 @@ func (bc *bookController) createBook(c *gin.Context) {
 		return
 	}
 	c.IndentedJSON(http.StatusCreated, book)
+}
+
+/*
+Delete Book By Id
+Params: id
+*/
+func (bc *bookController) deleteBook(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "invalid id"})
+		return
+	}
+
+	_, err = bc.services.DeleteBook(id)
+
+	if err != nil {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "book not found"})
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, gin.H{"message": "book deleted"})
 }
