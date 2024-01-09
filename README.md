@@ -3,16 +3,16 @@
 ## Summary
 
 REST API implemented using the Gin Web Framework for performance and productivity. The Data Layer provides multiple data store options to showcase extensibility. GORM is also implemented to provide ORM to the database.
-Configuration is managed by viper for reading config file and environment variables as a means to accommodate 12 Factor App methodology. The project structure itself utilizes a clean architecture approach to separate areas of concerns. 
+Configuration is managed by viper for reading config.yml file and/or environment variables (takes precedence over config file) as a means to accommodate 12 Factor App methodology. The project structure itself utilizes a clean architecture approach to separate areas of concerns. 
 
 ## Getting started
 
-- [ ] Ensure to complete the Setup instructions below if applicable
+- [ ] Ensure to complete all the subsequent Setup instructions below if applicable
 - [ ] Modify the configuration as needed:
 
 ```
 # Database and Server configuration
-config/config.yml
+config/config.yml (default database is memory, can be changed to sqlite)
 
 # Database and Server configuration (overrides config.yml)
 .env
