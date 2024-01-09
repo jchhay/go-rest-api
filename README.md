@@ -78,7 +78,7 @@ swag init
 # If main is in a sub directory:
 swag init --dir <dir> --parseDependency --parseDependencyLevel 3 --parseInternal --output docs
 ```
-- [] Test Swagger UI:
+- [ ] Test Swagger UI:
 
 [Swagger UI URL](http://localhost:3000/swagger/index.html)
 
