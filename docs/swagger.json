@@ -1,0 +1,44 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/v1/books": {
+            "get": {
+                "description": "Get books",
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Retrieves users based on query",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.BookResponseBody"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "app.BookResponseBody": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -10,7 +10,7 @@ import (
 
 func LoadEnv() {
 
-	err := godotenv.Load(`../.env`)
+	err := godotenv.Load(`.env`)
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
@@ -46,7 +46,7 @@ func SetupConfig() {
 	// Reading Configuration File and Environment Variables
 	// Environment Variable settings are prioritized over File
 
-	viper.SetConfigFile("../config/config.yml")
+	viper.SetConfigFile("config/config.yml")
 	viper.SetConfigType("yml")
 
 	viper.AutomaticEnv()

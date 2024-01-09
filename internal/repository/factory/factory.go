@@ -1,9 +1,9 @@
 package factory
 
 import (
-	"jchhay/go-rest-api-gin/repository"
-	"jchhay/go-rest-api-gin/repository/memory"
-	"jchhay/go-rest-api-gin/repository/sqlite"
+	"jchhay/go-rest-api-gin/internal/repository"
+	"jchhay/go-rest-api-gin/internal/repository/memory"
+	"jchhay/go-rest-api-gin/internal/repository/sqlite"
 )
 
 func NewRepositoryFactory(dbType string) repository.BookRepository {

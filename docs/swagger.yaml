@@ -1,0 +1,27 @@
+definitions:
+  app.BookResponseBody:
+    properties:
+      author:
+        type: string
+      id:
+        type: integer
+      quantity:
+        type: integer
+      title:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/books:
+    get:
+      description: Get books
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.BookResponseBody'
+      summary: Retrieves users based on query
+      tags:
+      - Books
+swagger: "2.0"

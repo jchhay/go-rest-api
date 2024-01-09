@@ -62,6 +62,19 @@ go get -u gorm.io/driver/sqlite
 https://pkg.go.dev/github.com/mattn/go-sqlite3#section-readme
 ```
 
+## Setup Swagger - RESTful API doc generation
+
+- [ ] Using the following libraries:
+
+```
+# Get swag
+go get -u github.com/swaggo/swag/cmd/swag
+
+# Generate docs
+swag init --dir cmd --parseDependency --parseDependencyLevel 3 --parseInternal --output docs
+```
+
+
 ## Integrate with your tools
 
 - [ ] [Set up project integrations](https://gitlab.com/j3085/python-automation/-/settings/integrations)

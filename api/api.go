@@ -13,8 +13,13 @@ func init() {
 
 func Run() {
 
-	web := Setup()
+	web := NewRouter()
 	fmt.Println("Go API REST Running on port " + config.GetConfig().Server.Port)
 	fmt.Println("==================>")
-	_ = web.Run("localhost:" + config.GetConfig().Server.Port)
+	err := web.Run("localhost:" + config.GetConfig().Server.Port)
+	if err != nil {
+		fmt.Println("Error starting server: ", err)
+		return
+
+	}
 }

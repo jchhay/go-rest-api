@@ -1,9 +1,9 @@
-package memory
+package sqlite
 
 import (
 	"errors"
-	"jchhay/go-rest-api-gin/models"
-	"jchhay/go-rest-api-gin/repository"
+	"jchhay/go-rest-api-gin/internal/models"
+	"jchhay/go-rest-api-gin/internal/repository"
 )
 
 // Dummy Data
@@ -12,6 +12,12 @@ var books = []models.Book{
 	{ID: 2, Title: "Ulysses", Author: "James Joyce", Quantity: 5},
 	{ID: 3, Title: "Don Quixote", Author: "Miguel de Cervantes", Quantity: 10},
 	{ID: 4, Title: "The Great Gatsby", Author: "F. Scott Fitzgerald", Quantity: 8},
+}
+
+type PostGresDatabaseFactory struct{}
+
+func (m *PostGresDatabaseFactory) NewBookRepository() repository.BookRepository {
+	return NewBookRepository()
 }
 
 type bookRepository struct {
@@ -25,16 +31,18 @@ func NewBookRepository() repository.BookRepository {
 }
 
 func (b *bookRepository) FindAll() (*[]models.Book, error) {
-	return &b.books, nil
+	var books []models.Book
+	err := repository.Find(&models.Book{}, &books, "ID asc")
+	return &books, err
 }
 
 func (b *bookRepository) FindByID(id int) (*models.Book, error) {
-	for _, book := range b.books {
-		if book.ID == id {
-			return &book, nil
-		}
+	var book models.Book
+	err := repository.FirstByID(&book, id)
+	if err != nil {
+		return nil, errors.New("book not found")
 	}
-	return &models.Book{}, errors.New("book not found")
+	return &book, nil
 }
 
 func (b *bookRepository) Save(book models.Book) (*models.Book, error) {
@@ -48,11 +56,10 @@ func (b *bookRepository) Save(book models.Book) (*models.Book, error) {
 }
 
 func (b *bookRepository) DeleteByID(id int) (int64, error) {
-	for i, book := range b.books {
-		if book.ID == id {
-			b.books = append(b.books[:i], b.books[i+1:]...)
-			return 0, nil
-		}
+	count, err := repository.DeleteByID(&models.Book{}, id)
+	if err != nil {
+		return 0, err
 	}
-	return 1, nil
+	return count, nil
+
 }

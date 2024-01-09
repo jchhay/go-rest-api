@@ -2,16 +2,30 @@ package api
 
 import (
 	"jchhay/go-rest-api-gin/config"
+	"jchhay/go-rest-api-gin/docs"
+	"jchhay/go-rest-api-gin/internal/app"
+	"jchhay/go-rest-api-gin/internal/repository/factory"
 	"jchhay/go-rest-api-gin/pkg/db"
-	"jchhay/go-rest-api-gin/repository/factory"
-	"jchhay/go-rest-api-gin/services"
+
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 
 	"github.com/gin-gonic/gin"
 )
 
-func Setup() *gin.Engine {
+// @title Golang API (jchhay)
+// @version 1
+// @description This is a sample rest api server using golang and gin framework
+
+// @contact.name API Support
+// @contact.email XXXXXXXXXXXXXXXX
+
+// @host localhost:3000
+// @BasePath /api/v1
+func NewRouter() *gin.Engine {
 
 	router := gin.Default()
+	docs.SwaggerInfo.BasePath = "/api/v1"
 
 	// Configure Repositories
 	db.SetupDB()
@@ -19,16 +33,17 @@ func Setup() *gin.Engine {
 	bookRepository := factory.NewRepositoryFactory(dbType)
 
 	// Configure Services
-	bookService := services.NewBookService(bookRepository)
+	bookService := app.NewBookService(bookRepository)
 
 	// Instantiate controller with dependencies
-	bc := NewBookController(bookService)
+	bc := app.NewBookHandler(bookService)
 
 	// Register Routes
-	router.GET("/books", bc.getBooks)
-	router.GET("/books/:id", bc.bookById)
-	router.POST("/books", bc.createBook)
-	router.DELETE("/books/:id", bc.deleteBook)
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	router.GET("/books", bc.GetBooks)
+	router.GET("/books/:id", bc.BookById)
+	router.POST("/books", bc.CreateBook)
+	router.DELETE("/books/:id", bc.DeleteBook)
 
 	return router
 }

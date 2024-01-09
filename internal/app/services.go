@@ -1,17 +1,16 @@
-package services
+package app
 
 import (
 	"errors"
 
-	"jchhay/go-rest-api-gin/dto"
-	"jchhay/go-rest-api-gin/models"
-	"jchhay/go-rest-api-gin/repository"
+	"jchhay/go-rest-api-gin/internal/models"
+	"jchhay/go-rest-api-gin/internal/repository"
 )
 
 type BookService interface {
 	GetBooks() (*[]models.Book, error)
 	GetBookById(id int) (*models.Book, error)
-	CreateNewBook(dto.BookRequestBody) (*dto.BookResponseBody, error)
+	CreateNewBook(models.Book) (*models.Book, error)
 	DeleteBook(id int) (int64, error)
 }
 
@@ -39,14 +38,14 @@ func (b *bookService) GetBookById(id int) (*models.Book, error) {
 	return book, nil
 }
 
-func (b *bookService) CreateNewBook(book dto.BookRequestBody) (*dto.BookResponseBody, error) {
+func (b *bookService) CreateNewBook(book models.Book) (*models.Book, error) {
 
-	newBook, err := b.repo.Save(*book.ToBookModel())
+	newBook, err := b.repo.Save(book)
 	if err != nil {
-		return dto.CreateBookResponseBody(newBook), err
+		return newBook, err
 	}
 
-	return dto.CreateBookResponseBody(newBook), nil
+	return newBook, nil
 }
 
 func (b *bookService) DeleteBook(id int) (int64, error) {

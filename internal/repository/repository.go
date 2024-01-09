@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"jchhay/go-rest-api-gin/models"
+	"jchhay/go-rest-api-gin/internal/models"
 )
 
 type BookRepository interface {
