@@ -1,5 +1,5 @@
 database:
-  driver: "sqlite"
+  driver: "memory"
   dbname: "data/database"
   username: "user"
   password: "password"

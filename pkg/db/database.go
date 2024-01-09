@@ -2,7 +2,6 @@ package db
 
 import (
 	"fmt"
-	"jchhay/go-rest-api-gin/config"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -20,13 +19,9 @@ type Book struct {
 	Quantity int
 }
 
-// SetupDB opens a database and saves the reference to `Database` struct.
-func SetupDB() {
+func NewGormClient(driver string) {
 	var db = DB
 
-	configuration := config.GetConfig()
-
-	driver := configuration.Database.Driver
 	if driver == "sqlite" {
 		db, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 		if err != nil {
@@ -38,7 +33,11 @@ func SetupDB() {
 	DB = db
 
 	// Migrate the schema
-	db.AutoMigrate(&Book{})
+	err = db.AutoMigrate(&Book{})
+	if err != nil {
+		fmt.Println("db err: ", err)
+		panic("failed to migrate database")
+	}
 
 	// Create Dummy Data
 	// db.Create(&Book{Title: "In Search of Lost Time", Author: "Marcel Proust", Quantity: 2})

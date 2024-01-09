@@ -8,7 +8,7 @@ import (
 
 func NewRepositoryFactory(dbType string) repository.BookRepository {
 	if dbType == "sqlite" {
-		return sqlite.NewBookRepository()
+		return sqlite.NewBookRepository(dbType)
 	}
 	return memory.NewBookRepository()
 }

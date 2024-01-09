@@ -4,13 +4,77 @@
         "contact": {}
     },
     "paths": {
-        "/api/v1/books": {
+        "/books": {
             "get": {
                 "description": "Get books",
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "Books"
                 ],
-                "summary": "Retrieves users based on query",
+                "summary": "Retrieves all books",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/app.BookResponseBody"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Save book to database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Create book",
+                "parameters": [
+                    {
+                        "description": "Book to save",
+                        "name": "book",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/app.BookRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/app.BookResponseBody"
+                        }
+                    }
+                }
+            }
+        },
+        "/books/{id}": {
+            "get": {
+                "description": "Get book by id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Retrieves users based on book id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Book ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -19,10 +83,51 @@
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "Delete book by id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Delete book",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Book ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
             }
         }
     },
     "definitions": {
+        "app.BookRequestBody": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
         "app.BookResponseBody": {
             "type": "object",
             "properties": {

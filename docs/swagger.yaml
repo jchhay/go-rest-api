@@ -1,4 +1,13 @@
 definitions:
+  app.BookRequestBody:
+    properties:
+      author:
+        type: string
+      quantity:
+        type: integer
+      title:
+        type: string
+    type: object
   app.BookResponseBody:
     properties:
       author:
@@ -13,15 +22,75 @@ definitions:
 info:
   contact: {}
 paths:
-  /api/v1/books:
+  /books:
     get:
       description: Get books
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/app.BookResponseBody'
+            type: array
+      summary: Retrieves all books
+      tags:
+      - Books
+    post:
+      description: Save book to database
+      parameters:
+      - description: Book to save
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/app.BookRequestBody'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/app.BookResponseBody'
+      summary: Create book
+      tags:
+      - Books
+  /books/{id}:
+    delete:
+      description: Delete book by id
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Delete book
+      tags:
+      - Books
+    get:
+      description: Get book by id
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
           schema:
             $ref: '#/definitions/app.BookResponseBody'
-      summary: Retrieves users based on query
+      summary: Retrieves users based on book id
       tags:
       - Books
 swagger: "2.0"

@@ -5,7 +5,6 @@ import (
 	"jchhay/go-rest-api-gin/docs"
 	"jchhay/go-rest-api-gin/internal/app"
 	"jchhay/go-rest-api-gin/internal/repository/factory"
-	"jchhay/go-rest-api-gin/pkg/db"
 
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -28,7 +27,6 @@ func NewRouter() *gin.Engine {
 	docs.SwaggerInfo.BasePath = "/api/v1"
 
 	// Configure Repositories
-	db.SetupDB()
 	dbType := config.GetConfig().Database.Driver
 	bookRepository := factory.NewRepositoryFactory(dbType)
 
@@ -39,11 +37,17 @@ func NewRouter() *gin.Engine {
 	bc := app.NewBookHandler(bookService)
 
 	// Register Routes
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	router.GET("/books", bc.GetBooks)
-	router.GET("/books/:id", bc.BookById)
-	router.POST("/books", bc.CreateBook)
-	router.DELETE("/books/:id", bc.DeleteBook)
 
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+
+	v1 := router.Group("/api/v1")
+
+	books := v1.Group("/books")
+	{
+		books.GET("/", bc.GetBooks)
+		books.GET("/:id", bc.BookById)
+		books.POST("/", bc.CreateBook)
+		books.DELETE("/:id", bc.DeleteBook)
+	}
 	return router
 }

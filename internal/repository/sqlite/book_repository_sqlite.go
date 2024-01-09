@@ -4,30 +4,21 @@ import (
 	"errors"
 	"jchhay/go-rest-api-gin/internal/models"
 	"jchhay/go-rest-api-gin/internal/repository"
+	"jchhay/go-rest-api-gin/pkg/db"
 )
 
-// Dummy Data
-var books = []models.Book{
-	{ID: 1, Title: "In Search of Lost Time", Author: "Marcel Proust", Quantity: 2},
-	{ID: 2, Title: "Ulysses", Author: "James Joyce", Quantity: 5},
-	{ID: 3, Title: "Don Quixote", Author: "Miguel de Cervantes", Quantity: 10},
-	{ID: 4, Title: "The Great Gatsby", Author: "F. Scott Fitzgerald", Quantity: 8},
-}
+type SqliteDatabaseFactory struct{}
 
-type PostGresDatabaseFactory struct{}
-
-func (m *PostGresDatabaseFactory) NewBookRepository() repository.BookRepository {
-	return NewBookRepository()
+func (m *SqliteDatabaseFactory) NewBookRepository(dbType string) repository.BookRepository {
+	return NewBookRepository(dbType)
 }
 
 type bookRepository struct {
-	books []models.Book
 }
 
-func NewBookRepository() repository.BookRepository {
-	return &bookRepository{
-		books: books,
-	}
+func NewBookRepository(dbType string) repository.BookRepository {
+	db.NewGormClient(dbType)
+	return &bookRepository{}
 }
 
 func (b *bookRepository) FindAll() (*[]models.Book, error) {
@@ -46,12 +37,10 @@ func (b *bookRepository) FindByID(id int) (*models.Book, error) {
 }
 
 func (b *bookRepository) Save(book models.Book) (*models.Book, error) {
-	for _, b := range b.books {
-		if book.ID == b.ID {
-			return &book, errors.New("book id already exists")
-		}
+	err := repository.Save(&book)
+	if err != nil {
+		return nil, err
 	}
-	b.books = append(b.books, book)
 	return &book, nil
 }
 

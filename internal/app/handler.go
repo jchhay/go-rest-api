@@ -10,7 +10,6 @@ import (
 )
 
 type BookRequestBody struct {
-	ID       int    `json:"id"`
 	Title    string `json:"title"`
 	Author   string `json:"author"`
 	Quantity int    `json:"quantity"`
@@ -18,7 +17,6 @@ type BookRequestBody struct {
 
 func (b *BookRequestBody) ToBookModel() *models.Book {
 	return &models.Book{
-		ID:       b.ID,
 		Title:    b.Title,
 		Author:   b.Author,
 		Quantity: b.Quantity,
@@ -58,11 +56,12 @@ func NewBookHandler(services BookService) BookHandler {
 }
 
 // GetBooks 	godoc
-// @Summary 	Retrieves users based on query
+// @Summary 	Retrieves all books
 // @Description Get books
 // @Tags 		Books
-// @Success 	200 {object} BookResponseBody
-// @Router 		/api/v1/books [get]
+// @Produce 	application/json
+// @Success 	200 {object} []BookResponseBody
+// @Router 		/books [get]
 func (bc *bookHandler) GetBooks(c *gin.Context) {
 	books, err := bc.services.GetBooks()
 	if err != nil {
@@ -76,10 +75,14 @@ func (bc *bookHandler) GetBooks(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, resp)
 }
 
-/*
-Get Book By Id
-Params: id
-*/
+// BookById 	godoc
+// @Summary 	Retrieves users based on book id
+// @Description Get book by id
+// @Param 		id path int true "Book ID"
+// @Tags 		Books
+// @Produce 	application/json
+// @Success 	200 {object} BookResponseBody
+// @Router 		/books/{id} [get]
 func (bc *bookHandler) BookById(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -98,10 +101,14 @@ func (bc *bookHandler) BookById(c *gin.Context) {
 
 }
 
-/*
-Create New Book
-Params: id, title, author, quantity
-*/
+// CreateBook godoc
+// @Summary 	Create book
+// @Description Save book to database
+// @Param 		book body BookRequestBody true "Book to save"
+// @Tags 		Books
+// @Produce 	application/json
+// @Success 	201 {object} BookResponseBody
+// @Router 		/books [post]
 func (bc *bookHandler) CreateBook(c *gin.Context) {
 
 	var newBook BookRequestBody
@@ -120,10 +127,14 @@ func (bc *bookHandler) CreateBook(c *gin.Context) {
 	c.IndentedJSON(http.StatusCreated, CreateBookResponseBody(book))
 }
 
-/*
-Delete Book By Id
-Params: id
-*/
+// DeleteBook	godoc
+// @Summary 	Delete book
+// @Description Delete book by id
+// @Param 		id path int true "Book ID"
+// @Tags 		Books
+// @Produce 	application/json
+// @Success 	200 {object} string
+// @Router 		/books/{id} [delete]
 func (bc *bookHandler) DeleteBook(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

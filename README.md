@@ -68,12 +68,19 @@ https://pkg.go.dev/github.com/mattn/go-sqlite3#section-readme
 
 ```
 # Get swag
-go get -u github.com/swaggo/swag/cmd/swag
+go install github.com/swaggo/swag/cmd/swag@latest
+go get -u github.com/swaggo/gin-swagger
+go get -u github.com/swaggo/files
 
 # Generate docs
-swag init --dir cmd --parseDependency --parseDependencyLevel 3 --parseInternal --output docs
+# If main is in root:
+swag init 
+# If main is in a sub directory:
+swag init --dir <dir> --parseDependency --parseDependencyLevel 3 --parseInternal --output docs
 ```
+- [] Test Swagger UI:
 
+[Swagger UI URL](http://localhost:3000/swagger/index.html)
 
 ## Integrate with your tools
 

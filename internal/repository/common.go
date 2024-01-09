@@ -17,6 +17,11 @@ func Find(where interface{}, out interface{}, orders ...string) error {
 	return db.Find(out).Error
 }
 
+// Save
+func Save(value interface{}) error {
+	return db.GetDB().Save(value).Error
+}
+
 // Delete
 func DeleteByID(model interface{}, id int) (count int64, err error) {
 	db := db.GetDB().Where("id=?", id).Delete(model)
