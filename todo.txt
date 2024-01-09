@@ -1,3 +1,0 @@
-
-- add unit testing
-- update readme so that it makes sense
