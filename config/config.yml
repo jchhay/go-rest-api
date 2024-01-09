@@ -1,4 +1,5 @@
 database:
+  #memory | sqlite
   driver: "memory"
   dbname: "data/database"
   username: "user"

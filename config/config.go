@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -63,8 +62,6 @@ func SetupConfig() {
 	if err != nil {
 		log.Fatalf("Unable to decode into struct, %v", err)
 	}
-
-	fmt.Println("CGO_ENABLED======" + viper.GetString("CGO_ENABLED"))
 
 }
 

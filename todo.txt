@@ -1,4 +1,3 @@
-- externalize port
-- add in memory db
+
 - add unit testing
-- add folder structure
+- update readme so that it makes sense
