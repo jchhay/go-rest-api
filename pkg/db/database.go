@@ -40,11 +40,11 @@ func NewGormClient(driver string) {
 	}
 
 	// Create Dummy Data
-	// db.Create(&Book{Title: "In Search of Lost Time", Author: "Marcel Proust", Quantity: 2})
-	// db.Create(&Book{Title: "Ulysses", Author: "James Joyce", Quantity: 5})
-	// db.Create(&Book{Title: "Don Quixote", Author: "Miguel de Cervantes", Quantity: 10})
-	// db.Create(&Book{Title: "The Great Gatsby", Author: "F. Scott Fitzgerald", Quantity: 8})
-	// db.Create(&Book{Title: "The Odyssey", Author: "Homer", Quantity: 3})
+	db.Create(&Book{Title: "In Search of Lost Time", Author: "Marcel Proust", Quantity: 2})
+	db.Create(&Book{Title: "Ulysses", Author: "James Joyce", Quantity: 5})
+	db.Create(&Book{Title: "Don Quixote", Author: "Miguel de Cervantes", Quantity: 10})
+	db.Create(&Book{Title: "The Great Gatsby", Author: "F. Scott Fitzgerald", Quantity: 8})
+	db.Create(&Book{Title: "The Odyssey", Author: "Homer", Quantity: 3})
 
 }
 
