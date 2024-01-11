@@ -62,6 +62,14 @@ go get -u gorm.io/driver/sqlite
 https://pkg.go.dev/github.com/mattn/go-sqlite3#section-readme
 ```
 
+## Setup Zap - logging solution
+
+- [ ] Using the following libraries:
+
+```
+go get -u go.uber.org/zap
+```
+
 ## Setup Swagger - RESTful API doc generation
 
 - [ ] Using the following libraries:

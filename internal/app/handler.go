@@ -93,7 +93,7 @@ func (bc *bookHandler) BookById(c *gin.Context) {
 	book, err := bc.services.GetBookById(id)
 
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": err.Error()})
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "book not found"})
 		return
 	}
 
@@ -121,7 +121,7 @@ func (bc *bookHandler) CreateBook(c *gin.Context) {
 	book, err := bc.services.CreateNewBook(*newBook.ToBookModel())
 
 	if err != nil {
-		c.IndentedJSON(http.StatusNotAcceptable, gin.H{"message": err.Error()})
+		c.IndentedJSON(http.StatusNotAcceptable, gin.H{"message": "failed to create"})
 		return
 	}
 	c.IndentedJSON(http.StatusCreated, CreateBookResponseBody(book))
