@@ -12,19 +12,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @title Golang API (jchhay)
-// @version 1
-// @description This is a sample rest api server using golang and gin framework
-
-// @contact.name API Support
-// @contact.email XXXXXXXXXXXXXXXX
-
-// @host localhost:3000
-// @BasePath /api/v1
 func NewRouter() *gin.Engine {
 
-	router := gin.Default()
-	docs.SwaggerInfo.BasePath = "/api/v1"
+	router := gin.New()
+	router.Use(gin.Logger())
+	router.Use(gin.Recovery())
 
 	// Configure Repositories
 	dbType := config.GetConfig().Database.Driver
@@ -36,8 +28,10 @@ func NewRouter() *gin.Engine {
 	// Instantiate controller with dependencies
 	bc := app.NewBookHandler(bookService)
 
-	// Register Routes
+	// Configure Swagger
+	docs.SwaggerInfo.BasePath = "/api/v1"
 
+	// Register Routes
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	v1 := router.Group("/api/v1")
@@ -49,5 +43,6 @@ func NewRouter() *gin.Engine {
 		books.POST("/", bc.CreateBook)
 		books.DELETE("/:id", bc.DeleteBook)
 	}
+
 	return router
 }

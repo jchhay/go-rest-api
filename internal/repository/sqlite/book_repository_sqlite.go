@@ -9,15 +9,15 @@ import (
 
 type SqliteDatabaseFactory struct{}
 
-func (m *SqliteDatabaseFactory) NewBookRepository(dbType string) repository.BookRepository {
-	return NewBookRepository(dbType)
+func (m *SqliteDatabaseFactory) NewBookRepository() repository.BookRepository {
+	return NewBookRepository()
 }
 
 type bookRepository struct {
 }
 
-func NewBookRepository(dbType string) repository.BookRepository {
-	db.NewGormClient(dbType)
+func NewBookRepository() repository.BookRepository {
+	db.NewGormClient()
 	return &bookRepository{}
 }
 

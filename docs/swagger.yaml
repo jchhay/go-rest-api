@@ -1,3 +1,4 @@
+basePath: /api/v1
 definitions:
   app.BookRequestBody:
     properties:
@@ -19,8 +20,14 @@ definitions:
       title:
         type: string
     type: object
+host: localhost:3000
 info:
-  contact: {}
+  contact:
+    email: XXXXXXXXXXXXXXXX
+    name: API Support
+  description: This is a sample rest api server using golang and gin framework
+  title: Go Rest API
+  version: "1"
 paths:
   /books:
     get:

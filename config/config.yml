@@ -1,5 +1,5 @@
 database:
-  #memory | sqlite
+  #driver values: memory | sqlite
   driver: "memory"
   dbname: "data/database"
   username: "user"
@@ -13,5 +13,5 @@ database:
 server:
   port: "80"
   secret: "TBD"
-  #release | debug
+  #mode values: release | debug
   mode: "debug"

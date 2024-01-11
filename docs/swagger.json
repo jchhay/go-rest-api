@@ -1,8 +1,16 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "This is a sample rest api server using golang and gin framework",
+        "title": "Go Rest API",
+        "contact": {
+            "name": "API Support",
+            "email": "XXXXXXXXXXXXXXXX"
+        },
+        "version": "1"
     },
+    "host": "localhost:3000",
+    "basePath": "/api/v1",
     "paths": {
         "/books": {
             "get": {
